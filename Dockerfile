@@ -7,7 +7,10 @@ ENV JMETER_HOME         /opt/apache-jmeter-${JMETER_VERSION}
 ENV JMETER_DOWNLOAD_URL https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-${JMETER_VERSION}.tgz
 ENV PATH                ${JMETER_HOME}/bin:$PATH
 
+COPY jmeter.sh           ${JMETER_HOME}/bin/jmeter-args.sh
+
 RUN set -x && \
+    chmod +x ${JMETER_HOME}/bin/jmeter-args.sh && \
     apk add --no-cache --virtual .dep_pack curl && \
     mkdir -p /opt && \
     curl -L --silent ${JMETER_DOWNLOAD_URL} | tar -xz -C /opt && \
@@ -18,4 +21,4 @@ RUN set -x && \
 
 EXPOSE 60000
 
-ENTRYPOINT ["jmeter.sh","-n","-Jclient.rmi.localport=60000","-Jclient.tries=3","-Jclient.retries_delay=10000","-Jclient.continue_on_fail=true"]
+ENTRYPOINT ["jmeter-args.sh","-n","-Jclient.rmi.localport=60000","-Jclient.tries=3","-Jclient.retries_delay=10000","-Jclient.continue_on_fail=true"]
