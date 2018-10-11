@@ -1,13 +1,13 @@
-FROM java:8-jre-alpine
+FROM openjdk:8-jre-alpine
 
-MAINTAINER INHdddd "kyosls@gmail.com"
+LABEL maintainer "kyosls@gmail.com"
 
-ENV JMETER_VERSION      4.0
+ENV JMETER_VERSION      5.0
 ENV JMETER_HOME         /opt/apache-jmeter-${JMETER_VERSION}
 ENV JMETER_DOWNLOAD_URL https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-${JMETER_VERSION}.tgz
 ENV PATH                ${JMETER_HOME}/bin:$PATH
 
-COPY jmeter.sh           ${JMETER_HOME}/bin/jmeter-args.sh
+COPY jmeter.sh          ${JMETER_HOME}/bin/jmeter-args.sh
 
 RUN set -x && \
     chmod +x ${JMETER_HOME}/bin/jmeter-args.sh && \
